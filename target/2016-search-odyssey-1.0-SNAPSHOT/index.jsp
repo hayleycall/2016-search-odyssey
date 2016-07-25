@@ -6,8 +6,6 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -16,13 +14,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link rel="icon" href="http://cliparts.co/cliparts/8cA/Enp/8cAEnpM6i.png">
+
     <title>A Search Odyssey</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap2.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/stylish-portfolio1.css" rel="stylesheet">
+    <link href="css/stylish-portfolio2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -36,6 +36,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
 
 </head>
 
@@ -72,25 +73,19 @@
         <div class="text-vertical-center">
             <h1>2016: A Search Odyssey</h1>
 	    <br>
-            <input name="search" id="search" type="text" class="form-control" value="" />
-            <br>
-	    <br>
-            <a href="#about" class="btn btn-dark btn-lg">Blastoff!</a>
+            <form action="search" method="POST">
+                <input name="search" id="search" type="text" class="form-control" value="" />
+                <br>
+                <br>
+                <button type="submit" class="btn btn-dark btn-lg">Blastoff!</a>
+            </form>
         </div>
     </header>
 
     <!-- About -->
     <section id="about" class="about">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2>Stylish Portfolio is the perfect theme for your next project!</h2>
-                    <p class="lead">This theme features some wonderful photography courtesy of <a target="_blank" href="http://join.deathtothestockphoto.com/">Death to the Stock Photo</a>.</p>
-                </div>
-            </div>
-            <!-- /.row -->
-        </div>
-        <!-- /.container -->
+
+
     </section>
 
     <!-- Services -->
