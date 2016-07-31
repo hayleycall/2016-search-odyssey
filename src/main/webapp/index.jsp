@@ -22,7 +22,7 @@
     <link href="css/bootstrap2.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/stylish-portfolio2.css" rel="stylesheet">
+    <link href="css/stylish-portfolio1.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -73,7 +73,7 @@
         <div class="text-vertical-center">
             <h1>2016: A Search Odyssey</h1>
 	    <br>
-            <form action="search" method="POST">
+            <form name="searchForm" action="Search" method="POST">
                 <input name="search" id="search" type="text" class="form-control" value="" />
                 <br>
                 <br>
