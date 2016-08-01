@@ -137,8 +137,8 @@ public class WikiSearch {
 				return (w1.getValue().compareTo(w2.getValue()));
 			}
 		};
-		
-		Collections.sort(sortList, comparator);
+		if(sortList!=null)
+		    Collections.sort(sortList, comparator);
 	
 		return sortList;
 	}

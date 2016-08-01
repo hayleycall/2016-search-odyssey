@@ -39,9 +39,8 @@ public class SearchServlet extends HttpServlet {
 	//String term1 = "java";
 	// System.out.println("Query: " + term1);
 	// WikiSearch search1 = search(term1, index);
-	WikiSearch search1 = WikiSearch.search("java", index);
-
-		
+	WikiSearch search1 = WikiSearch.search(search, index);
+	
 	// search for the second term
 	/*String term2 = "programming";
 	System.out.println("Query: " + term2);
@@ -52,18 +51,8 @@ public class SearchServlet extends HttpServlet {
 	System.out.println("Query: " + term1 + " AND " + term2);
 	WikiSearch intersection = search1.and(search2);
 	intersection.print(); */   
-	
 	List<Entry<String, Integer>> entries = search1.sort();
-	ArrayList<String> urls=new ArrayList<String>();
-	ArrayList<Integer> counts=new ArrayList<Integer>();
-       	for(Entry<String, Integer> entry : entries){
-	    urls.add(entry.getKey());
-	    counts.add(entry.getValue());
-	}
-	    
-	//request.setAttribute("search",search);
-	request.setAttribute("urls",urls);
-       	request.setAttribute("counts",counts);
+
 	String json = listmap_to_json_string(entries);
 	//response.getWriter().println(json);
 	request.setAttribute("json",json);
@@ -75,10 +64,21 @@ public class SearchServlet extends HttpServlet {
     {       
 	JSONArray json_arr=new JSONArray();
 	int i=1;
+	if(list==null || list.size()==0){
+	    JSONObject json_obj=new JSONObject();
+	    try {
+		    json_obj.put("count", "");
+		    json_obj.put("text","No results! :(");
+		} catch (JSONException e) {
+		    e.printStackTrace();
+		}
+	     json_arr.put(json_obj);
+	    return json_arr.toString();
+	}
 	for (Entry<String, Integer> entry : list) {
 	    JSONObject json_obj=new JSONObject();
 		String key = entry.getKey();
-		Object value = entry.getValue();
+	        Integer value = entry.getValue();
 		try {
 		    json_obj.put("count",value);
 		    json_obj.put("text",key);
