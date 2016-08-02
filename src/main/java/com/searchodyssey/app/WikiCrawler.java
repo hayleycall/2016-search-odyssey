@@ -9,15 +9,12 @@ import org.jsoup.nodes.Node;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import redis.clients.jedis.Jedis;
 
 
 public class WikiCrawler {
 	// keeps track of where we started
 	private final String source;
 	
-	// the index where the results go
-	private JedisIndex index;
 	
 	// queue of URLs to be indexed
 	private Queue<String> queue = new LinkedList<String>();
@@ -31,9 +28,8 @@ public class WikiCrawler {
 	 * @param source
 	 * @param index
 	 */
-	public WikiCrawler(String source, JedisIndex index) {
+	public WikiCrawler(String source) {
 		this.source = source;
-		this.index = index;
 		queue.offer(source);
 	}
 
@@ -88,7 +84,12 @@ public class WikiCrawler {
                                         for(Element f : links) {
                                                 url=((Element) node).attr("href");
                                                 if(url.startsWith("/wiki/"))
-                                                        queue.add("https://en.wikipedia.org"+url);
+                                                	// we dont want too many links
+                                                	if (queuesize() <= 500) {
+                                                        	queue.add("https://en.wikipedia.org"+url);
+                                                	} else {
+                                                		return;
+                                                	}
                                         }
                                 }
                         }
@@ -100,25 +101,12 @@ public class WikiCrawler {
 	public static void main(String[] args) throws IOException {
 		
 		// make a WikiCrawler
-		Jedis jedis = JedisMaker.make();
-		JedisIndex index = new JedisIndex(jedis); 
 		String source = "https://en.wikipedia.org/wiki/Java_(programming_language)";
-		WikiCrawler wc = new WikiCrawler(source, index);
+		WikiCrawler wc = new WikiCrawler(source);
 		
 		// for testing purposes, load up the queue
-		Elements paragraphs = wf.fetchWikipedia(source);
-		wc.queueInternalLinks(paragraphs);
-
-		// loop until we index a new page
-		String res;
-		do {
-			res = wc.crawl(false);
-
-		} while (res == null);
+	//	Elements paragraphs = wf.fetchWikipedia(source);
+	//	wc.queueInternalLinks(paragraphs);
 		
-		Map<String, Integer> map = index.getCounts("the");
-		for (Entry<String, Integer> entry: map.entrySet()) {
-			System.out.println(entry);
-		}
 	}
 }
