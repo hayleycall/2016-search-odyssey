@@ -19,16 +19,35 @@
         .bubbleChart {
             width: 100%;
             height: 675px;
-            margin: 0 auto;
+            margin: 0 0;
         }
         .bubbleChart svg{
-	   background: url(../img/bg.jpg) no-repeat center center scroll;
-	  background-color: rgba(0,0,0,0.4);
+	  
         }
+	body{
+	  background: url(../img/bg.jpg) no-repeat center center scroll;
+	  background-color: rgba(0,0,0,0.4);
+	 }
+	 h1{
+	   font-family: Source Sans Pro;
+	   font-weight: bold;
+	   display: inline;
+	   background-color: rgba(0,0,0,0.3);
+	  }
+	
     </style>
+    <!-- Custom CSS -->
+    <link href="css/stylish-portfolio1.css" rel="stylesheet">
+
 </head>
 <body>
-
+<div>
+	<h1>2016: A Search Odyssey</h1>
+            <form name="searchForm" action="Search" method="POST" style="display: inline;">
+                <input name="search" id="search" type="text" class="form-control" value="<%= request.getParameter("search")%>" />
+                <button type="submit" class="btn btn-dark1">Blastoff!</a>
+    </form>
+    </div>
     <script src="http://phuonghuynh.github.io/js/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="http://phuonghuynh.github.io/js/bower_components/d3/d3.min.js"></script>
     <script src="http://phuonghuynh.github.io/js/bower_components/d3-transform/src/d3-transform.js"></script>
@@ -43,7 +62,7 @@
      <script type="text/javascript">
     $(document).ready(function () {
     var json=JSON.parse('<%=(String)request.getAttribute("json")%>');
-  var bubbleChart = new d3.svg.BubbleChart({
+    var bubbleChart = new d3.svg.BubbleChart({
     supportResponsive: true,
     //container: => use @default
     size: 600,

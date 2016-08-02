@@ -20,7 +20,7 @@ public class TermCounter {
 	
 	private Map<String, Integer> map;
 	private String label;
-	private String incomingLinkNum;
+	private int incomingLinkNum;
 	
 	public TermCounter(String label) {
 		this.label = label;

@@ -3,6 +3,8 @@ package com.searchodyssey.app;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import java.util.Iterator;
+
 import com.searchodyssey.app.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,6 +32,7 @@ import java.net.URL;
 
 import java.io.InputStreamReader;
 import java.io.InputStream;
+import java.io.BufferedReader;
 
 import java.net.URLEncoder;
 
@@ -64,15 +67,17 @@ public class SearchServlet extends HttpServlet {
 	WikiSearch intersection = search1.and(search2);
 	intersection.print(); */   
 	List<Entry<String, Integer>> entries = search1.sort();
-	ArrayList<String> snippets=new ArrayList<String>();
+	/*ArrayList<String> snippets=new ArrayList<String>();
 	
 	//get first sentence of each page
 	for (Entry<String, Integer> entry: entries) {
 	    String url=entry.getKey();
-	    String firstSentence=getFirstSentence(url);
-	    snippets.add(firstSentence);
-	    //response.getWriter().println(firstSentence);
-	}
+	    //String firstSentence=getFirstSentence(url, response);
+	    //snippets.add(firstSentence);
+	     ArrayList<String> keys=getFirstSentence(url, response);
+	     /* for(String s : keys)
+		response.getWriter().println(s);
+		}*/
 
 	String json = listmap_to_json_string(entries);
 	//response.getWriter().println(json);
@@ -82,7 +87,7 @@ public class SearchServlet extends HttpServlet {
          
     }
 
-    public String getFirstSentence(String sURL){
+    /*  public ArrayList<String> getFirstSentence(String sURL,  HttpServletResponse response){
 	 // Connect to the URL using java's native library
 	try{
 	    String encodedString = URLEncoder.encode("https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exsentences=1&explaintext=&titles="+sURL,"UTF-8");
@@ -91,16 +96,31 @@ public class SearchServlet extends HttpServlet {
 	    request.connect();
 
 	// Convert to a JSON object to print data
-	    JsonParser jp = new JsonParser(); //from gson
-	    JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
-	    JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object. 
-	    String firstSentence= rootobj.get("query.pages.extract").getAsString();
-	    return firstSentence;
+	    //JsonParser jp = new JsonParser(); //from gson
+	    //JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
+	    String result = getStringFromInputStream((InputStream) request.getContent());
+	     response.getWriter().println(result);
+          JSONObject rootObj =new JSONObject(result);
+           // JsonObject rootObj = root.getAsJsonObject(); //May be an array, may be an object.
+	    JSONObject jsonChildObject = (JSONObject)rootObj.get("query");
+	     Iterator iterator  = jsonChildObject.keys();
+            String key = null;
+	    ArrayList<String> keys=new ArrayList<String>();
+	    while(iterator.hasNext()){
+                key = (String)iterator.next();
+		keys.add(key);
+	        response.getWriter().println(key);
+                //response.getWriter().println(((JSONObject)jsonChildObject.get(key)).get("extract"));
+            }
+	    //String firstSentence= rootobj.get("query.pages").getAsString();
+	    String firstSentence=null;
+	    // return firstSentence;
+	    return keys;
 	}
 	catch(java.net.MalformedURLException e){}
 	catch(java.io.IOException e){}
 	return null;
-    }
+	}*/
     
     public String listmap_to_json_string(List<Entry<String, Integer>> list)
     {       
@@ -133,5 +153,36 @@ public class SearchServlet extends HttpServlet {
 	}
 	return json_arr.toString();
     }
+
+
+	// convert InputStream to String
+	private static String getStringFromInputStream(InputStream is) {
+
+		BufferedReader br = null;
+		StringBuilder sb = new StringBuilder();
+
+		String line;
+		try {
+
+			br = new BufferedReader(new InputStreamReader(is));
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return sb.toString();
+
+	}
  
 }
