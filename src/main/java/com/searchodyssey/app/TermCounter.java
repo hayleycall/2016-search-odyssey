@@ -154,6 +154,12 @@ public class TermCounter {
 	public static void main(String[] args) throws IOException {
 		String url = "https://en.wikipedia.org/wiki/Java_(programming_language)";
 		
+		WikiCrawler wc = new WikiCrawler(url);
+		wc.crawl(false);
+		
+		// go into crawler and get queue of internal links, go through those, call wikifetcher on them to get terms and internal links
+		
+		
 		WikiFetcher wf = new WikiFetcher();
 		Elements paragraphs = wf.fetchWikipedia(url);
 		
