@@ -20,14 +20,20 @@ public class TermCounter {
 	
 	private Map<String, Integer> map;
 	private String label;
+	private String incomingLinkNum;
 	
 	public TermCounter(String label) {
 		this.label = label;
 		this.map = new HashMap<String, Integer>();
+		this.incomingLinkNum = 0;
 	}
 	
 	public String getLabel() {
 		return label;
+	}
+	
+	public int getIncomingLinkNum() {
+		return incomingLinkNum;
 	}
 	
 	/**
@@ -65,6 +71,7 @@ public class TermCounter {
 		for (Node node: new WikiNodeIterable(root)) {
 			if (node instanceof TextNode) {
 				processText(((TextNode) node).text());
+				getLinks(((TextNode) node).text());
 			}
 		}
 	}
@@ -82,6 +89,11 @@ public class TermCounter {
 			String term = array[i];
 			incrementTermCount(term);
 		}
+	}
+	
+	public void getLinks(String text) {
+		// here is where we will parse to get linkNum
+		// if there is a link, count it
 	}
 
 	/**
