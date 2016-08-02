@@ -23,31 +23,7 @@ public class JedisMaker {
 	 */
 	public static Jedis make() throws IOException {
 
-
-		// assemble the file name
-	    /*	String slash = File.separator;
-		String filename = "resources" + slash + "redis_url.txt";
-		URL fileURL = JedisMaker.class.getClassLoader().getResource(filename);
-
-	  StringBuilder sb = new StringBuilder();
-		BufferedReader br;
-		try {
-			br = new BufferedReader(new FileReader(fileURL.getFile()));
-		} catch (FileNotFoundException e1) {
-			System.out.println("File not found: " + filename);
-			printInstructions();
-			return null;
-		}
-
-		while (true) {
-			String line = br.readLine();
-			if (line == null) break;
-			sb.append(line);
-		}
-		br.close();*/
-	   
-
-		URI uri;
+	    /*URI uri;
 		try {
 		    //uri = new URI(sb.toString());
 		    uri = new URI("redis://redistogo:1276999711ba880254b62b41886371b8@viperfish.redistogo.com:10836/");
@@ -68,16 +44,17 @@ public class JedisMaker {
 		//int port = 10534;
 		//String auth = System.getenv("REDISTOGO_AUTH");
 
-		Jedis jedis = new Jedis(host, port);
-
+		Jedis jedis = new Jedis(host, port);*/
+	        Jedis jedis = new Jedis("pub-redis-14631.us-east-1-4.5.ec2.garantiadata.com", 14631);
 		try {
-			jedis.auth(auth);
+		    //jedis.auth(auth);
+		    jedis.auth("password");
 		} catch (Exception e) {
-			System.out.println("Trying to connect to " + host);
-			System.out.println("on port " + port);
-			System.out.println("with authcode " + auth);
-			System.out.println("Got exception " + e);
-			printInstructions();
+		    //System.out.println("Trying to connect to " + host);
+		    //	System.out.println("on port " + port);
+		    //	System.out.println("with authcode " + auth);
+		    //	System.out.println("Got exception " + e);
+		    	printInstructions();
 			return null;
 		}
 		return jedis;
