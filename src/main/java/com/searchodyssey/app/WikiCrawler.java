@@ -16,8 +16,6 @@ public class WikiCrawler {
 	// keeps track of where we started
 	private final String source;
 	
-	// the index where the results go
-	private JedisIndex index;
 	
 	// queue of URLs to be indexed
 	private Queue<String> queue = new LinkedList<String>();
@@ -31,7 +29,7 @@ public class WikiCrawler {
 	 * @param source
 	 * @param index
 	 */
-	public WikiCrawler(String source, JedisIndex index) {
+	public WikiCrawler(String source) {
 		this.source = source;
 		this.index = index;
 		queue.offer(source);
@@ -100,15 +98,12 @@ public class WikiCrawler {
 	public static void main(String[] args) throws IOException {
 		
 		// make a WikiCrawler
-		Jedis jedis = JedisMaker.make();
-		JedisIndex index = new JedisIndex(jedis); 
-		String source = "https://en.wikipedia.org/wiki/Java_(programming_language)";
-		WikiCrawler wc = new WikiCrawler(source, index);
-		
-		// for testing purposes, load up the queue
-		Elements paragraphs = wf.fetchWikipedia(source);
-		wc.queueInternalLinks(paragraphs);
+		// we don't need jedis/redis since we will be storing locally
 
+		// we need to read in a file and queue the links from that file
+		String source = "https://en.wikipedia.org/wiki/Java_(programming_language)";
+		WikiCrawler wc = new WikiCrawler(source);
+		
 		// loop until we index a new page
 		String res;
 		do {
